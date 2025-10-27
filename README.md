@@ -126,21 +126,11 @@ Example Response
 ]
 ````
 
-Assumptions
+Issues:
 
-“Dynamic filter” = single free-text query matched across name, description, category, brand, SKU; numeric tokens match price/stock exactly.
-
-Pagination + sort are required for snappy UX with 100–1000 rows.
-
-Performance choices
-
-H2 with indices on search columns for LIKE scans; paging limits to ≤100 items.
-
-Batched inserts enabled to generate up to 1k quickly.
-
-Improvements with more time
-
-Multi-facet filters (price range, category list, stock > 0), fuzzy match, and highlighting.
+- FrontEnd not working (Not a frontend expert)
+- Tests are not written.
+  
 
 Full-text via PostgreSQL GIN/tsvector or Elasticsearch/OpenSearch if scale grows.
 
