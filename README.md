@@ -70,7 +70,7 @@ GET /products
 Fetch all existing products.
 
 Example
-curl http://localhost:8080/products
+```curl http://localhost:8080/products```
 
 Response
 ````
@@ -93,7 +93,7 @@ GET /products/filter?query=<searchTerm>
 Performs case-insensitive search across name, description, brand, category, and sku.
 
 Example
-curl "http://localhost:8080/products/filter?query=brand-1"
+```curl "http://localhost:8080/products/filter?query=brand-1"```
 
 Response
 ````
@@ -110,7 +110,7 @@ Response
 ````
 
 Search Products
-curl "http://localhost:8080/products/search?query=brand-1"
+```curl "http://localhost:8080/products/search?query=brand-1"```
 
 Example Response
 ````
@@ -125,3 +125,25 @@ Example Response
 }
 ]
 ````
+
+Assumptions
+
+“Dynamic filter” = single free-text query matched across name, description, category, brand, SKU; numeric tokens match price/stock exactly.
+
+Pagination + sort are required for snappy UX with 100–1000 rows.
+
+Performance choices
+
+H2 with indices on search columns for LIKE scans; paging limits to ≤100 items.
+
+Batched inserts enabled to generate up to 1k quickly.
+
+Improvements with more time
+
+Multi-facet filters (price range, category list, stock > 0), fuzzy match, and highlighting.
+
+Full-text via PostgreSQL GIN/tsvector or Elasticsearch/OpenSearch if scale grows.
+
+Caching hot queries, rate-limiting, metrics, and tracing.
+
+Contract tests + controller slice tests + testcontainers against Postgres.
