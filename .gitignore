@@ -35,3 +35,4 @@ build/
 .codesight
 
 .DS_Store
+.vscode
